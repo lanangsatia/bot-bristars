@@ -69,7 +69,13 @@ def bot():
             browser.text_field(name='f_orgeh').wait_until(method=lambda e: e.present).send_keys(x[0])
             print(x[0])
             browser.execute_script('document.getElementById("f_posisi_data").removeAttribute("readonly")')
-            browser.text_field(name='f_posisi_data').wait_until(method=lambda e: e.present).send_keys(x[1], Keys.ENTER)
+            date1 = x[1]
+            browser.execute_script("""
+                                var date1 = arguments[0];
+                                document.getElementById('f_posisi_data').value = date1;
+                                """, date1)
+
+            # browser.text_field(name='f_posisi_data').wait_until(method=lambda e: e.present).send_keys(x[1], Keys.ENTER)
 
             browser.button(name='search').click()
 
@@ -78,13 +84,18 @@ def bot():
 
             #Form orgeh
             browser.execute_script('document.getElementById("startdate").removeAttribute("readonly")')
-            browser.text_field(name='startdate').wait_until(method=lambda e: e.present).send_keys(x[2], Keys.ENTER)
+            # browser.text_field(name='startdate').wait_until(method=lambda e: e.present).send_keys(x[2], Keys.ENTER)
+            date2 = x[2]
+            browser.execute_script("""
+                                            var date2 = arguments[0];
+                                            document.getElementById('startdate').value = date2;
+                                            """, date2)
             browser.text_field(name='abbrevation').wait_until(method=lambda e: e.present).send_keys(x[3])
             browser.text_field(name='short_text').wait_until(method=lambda e: e.present).send_keys(x[4])
             # browser.text_field(name='auto_costcenter').wait_until(method=lambda e: e.present).send_keys(x[5])
             # browser.text_field(name='auto_costcenter').wait_until(method=lambda e: e.present).send_keys(Keys.ARROW_DOWN, Keys.ENTER)
             browser.select_list(id="jenis_uker").select(x[6])
-            browser.select_list(id="divisi").select(x[7])
+            # browser.select_list(id="divisi").select(x[7])
             browser.text_field(id='cs1').wait_until(method=lambda e: e.present).send_keys(checker)
             time.sleep(1)
             browser.text_field(id='cs1').wait_until(method=lambda e: e.present).send_keys(Keys.ARROW_DOWN, Keys.TAB)
@@ -96,6 +107,7 @@ def bot():
                 browser.alert.ok()
             time.sleep(3)
             print("OK!")
+            browser.refresh()
         except Exception as e:
             print("EROOOOOOORRRRRRRRRRRRR!!!!!")
             print(e)
